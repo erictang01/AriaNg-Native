@@ -89,6 +89,10 @@
     "appId": "net.mayswind.ariang",
     "productName": "AriaNg Native",
     "copyright": "Copyright (c) 2017-2020 MaysWind (i@mayswind.net)",
+
+    "extraResources":[
+      "./assets/extraResources/**"
+    ],
     "files": [
       "!node_modules",
       {

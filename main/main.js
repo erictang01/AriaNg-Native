@@ -16,6 +16,9 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const singletonLock = app.requestSingleInstanceLock();
+const exec = require('child_process').exec
+var resourcePath = process.resourcesPath + "/assets/extraResources"
+var util = require('util');
 
 if (!singletonLock) {
     app.quit();
@@ -51,10 +54,27 @@ if (os.platform() === 'darwin') {
                 filePathInCommandLine = filePath;
             }
         });
+
+        function startArias2()
+        {
+            var cmd = util.format('sh "%s/start_aria2.sh"', resourcePath);
+            console.log("start arias2c.."+ cmd)
+            exec(cmd);
+        }
+        startArias2();
     });
 
     app.on('before-quit', () => {
         core.isConfirmExit = true;
+
+        function stopAria2()
+        {
+            var cmd = util.format('sh "%s/stop_aria2.sh"', resourcePath);
+            console.log("stop arias2c..."+ cmd)
+            exec(cmd);
+        }
+        stopAria2();
+
     });
 
     app.on('activate', () => {
@@ -62,6 +82,8 @@ if (os.platform() === 'darwin') {
             core.mainWindow.show();
         }
     });
+
+
 }
 
 app.on('window-all-closed', () => {
